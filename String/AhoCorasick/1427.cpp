@@ -1,76 +1,59 @@
 ///*BISMILLAHIR RAHMANIR RAHIM*///
+/// Aho-Corasick Algorithm for string matching
+/// Complexity O(N + M) + O(MAX * LET), N = text length, M = sum of pattern length, MAX = Total nodes in trie
 #include <bits/stdc++.h>
 using namespace std;
 #define N 500*500 + 10
 typedef long long ll;
 const int K = 26;
-int ch[N][K], val[N], f[N], freq[N], last[N], ss, ind;
-map<string, int>chk;
+int trie[N][K], val[N], fail[N], freq[N], T[N], que[N], ss, ind, len;
 void insert ( string s ) {
 	int u = 0;
 	for ( char x : s ) {
 		int c = x - 'a';
-		if ( !ch[u][c] ) {
-			ch[u][c] = ++ss;
-			val[ss] = 0; 
+		if ( !trie[u][c] ) {
+			trie[u][c] = ++ss; 
 		}
-		u = ch[u][c];
+		u = trie[u][c];
 	}
-	val[u] = ind; // index of where i'th string has ended.
+	val[ind] = u; /// saving the index of the current pattern.
 } 
 void build_fail() {
-	queue<int>q;
-	int i;
-	f[0] = 0; // f gives the index where we should go after we failed to traverse from i'th node
-	for ( i = 0; i < 26; i++ ) {
-		int u = ch[0][i];
-		if ( u ){
-			f[u] = 0;
-			q.push(u);
-			last[u] = 0;
+	int i, j, x, f = 0, l = 0;
+	for ( i = 0; i < K; i++ ) {
+		 x = trie[0][i];
+		 if ( x ) {
+		 	que[l++] = x;
+		 }
+	}
+	while ( f < l ) {
+		i = que[f++];
+		for ( j = 0; j < K; j++ ) {
+			int &v = trie[i][j];
+			if ( v == 0 ) v = trie[fail[i]][j];
+			else {
+				fail[v] = trie[fail[i]][j];
+				que[l++] = v, T[len++] = v; 
+			}
 		}
 	}
-	int r, u, v;
-	while ( !q.empty() ) {
-		r = q.front();
-		q.pop();
-		for ( int c = 0; c < 26; c++ ) {
-			u = ch[r][c];
-			if(!u)continue;
-			q.push(u);
-			v = f[r];
-			while ( v && ch[v][c] == 0 ) v = f[v];
-			f[u] = ch[v][c];
+}
 
-			last[u] = val[f[u]] ? f[u] : last[f[u]];
-			// cout << u << " = " << f[u] << " & " << last[u]<< endl;
-		}
-	}
-}
-void print(int j ) {
-	if ( j ) {
-		++freq[val[j]]; // recursively increase frequency of each leaf
-		print(last[j]);
-	}
-}
 void search ( string s ) {
-	int j = 0;
-	for ( int i = 0; i < s.length(); i ++ ) {
+	int i, j, x, cur = 0;
+	for ( i = 0; i < s.length(); i ++ ) {
 		int c = s[i] - 'a';
-		while ( j && ch[j][c] == 0 ) {
-			j = f[j];
-		}
-		j = ch[j][c];
-		if ( val[j] ) print(j);
-		else if ( last[j] ) print(last[j]);
+		cur = trie[cur][c];
+		freq[cur]++;
 	}
+	for ( i = len - 1; i >= 0; i-- ) freq[fail[T[i]]] += freq[T[i]];/// add to count of fail node also
 }
 
 void clr() {
-	ind = 0, ss = 0;
-	memset(ch, 0, sizeof ch);
+	ind = 0, ss = 0, len = 0;
+	memset(trie, 0, sizeof trie);
 	memset(freq, 0, sizeof freq);
-	chk.clear();
+	memset(fail, 0, sizeof fail);
 }
 string pat[N];
 int main () {
@@ -85,8 +68,6 @@ int main () {
 		cin >> txt;
 		for ( i = 1; i <= n; i++ ) {
 			cin >> pat[i];
-			if ( chk.count(pat[i]))continue;
-			chk[pat[i]] = i;
 			ind = i;
 			insert(pat[i]);
 		}
@@ -94,7 +75,7 @@ int main () {
 		search(txt);
 		printf("Case %d:\n", ++cases);
 		for ( i = 1; i <= n; i++ ) {
-			printf("%d\n", freq[chk[pat[i]]]);
+			printf("%d\n", freq[val[i]]);
 		}
 	}
 	return 0;
