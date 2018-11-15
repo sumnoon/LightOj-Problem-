@@ -18,11 +18,11 @@ int main(){
 			x[u] += w, y[v] += w, total += w;
 		}
 		ans = 0;
-		for ( ansx = 0; ansx < 50000 && (ans << 1) < total; ansx++ ) {
+		for ( ansx = 0; ansx <= m && (ans << 1) < total; ansx++ ) {
 			ans += x[ansx];
 		}
 		ans = 0;
-		for ( ansy = 0; ansy < 50000 && (ans << 1) < total; ansy++ ) {
+		for ( ansy = 0; ansy <= n && (ans << 1) < total; ansy++ ) {
 			ans += y[ansy];
 		}
 		printf("Case %d: %lld %lld\n", ++cases, ansx - 1, ansy - 1);
