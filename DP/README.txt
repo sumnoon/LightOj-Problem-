@@ -12,3 +12,5 @@ if prev and i is 1 then increae cnt 1 otherwise keep as it is.
                                   = a[pos] if pos == n - 1 & first item is not taken
                                   = max ( a[pos] + func ( pos + 2, check ) , func ( pos + 1, check ) )
 find maximum between func ( 0, 0 ) and func ( 1, 1 ).
+
+#1060 - https://www.geeksforgeeks.org/find-n-th-lexicographically-permutation-string-set-2/
