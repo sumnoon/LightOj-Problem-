@@ -14,3 +14,9 @@ if prev and i is 1 then increae cnt 1 otherwise keep as it is.
 find maximum between func ( 0, 0 ) and func ( 1, 1 ).
 
 #1060 - https://www.geeksforgeeks.org/find-n-th-lexicographically-permutation-string-set-2/
+
+#1051 - think vowels as 0 and consonent as 1. Then find whether there can be three consecutive 0's or 5 consecutive 1's. DP states will be 
+        1. pos - position of the character
+        2. vowel_count - if consonent count increase vowel count will be zero
+        3. consonent_count - if vowel count increase consonent count will be zero
+        otherwise check both putting vowel and consonent.
