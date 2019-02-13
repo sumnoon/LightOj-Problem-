@@ -23,3 +23,5 @@ find maximum between func ( 0, 0 ) and func ( 1, 1 ).
         
 #1064 - if ( n == 0 ) then if sum>=x return 1 else return 0
         if ( n > 0 ) than add v + sum and decrease n by 1 for v = 1 to 6
+        
+#1071 - http://one-problem-a-day.blogspot.com/2012/02/lightoj-1071-baker-vai.html
