@@ -20,3 +20,6 @@ find maximum between func ( 0, 0 ) and func ( 1, 1 ).
         2. vowel_count - if consonent count increase vowel count will be zero
         3. consonent_count - if vowel count increase consonent count will be zero
         otherwise check both putting vowel and consonent.
+        
+#1064 - if ( n == 0 ) then if sum>=x return 1 else return 0
+        if ( n > 0 ) than add v + sum and decrease n by 1 for v = 1 to 6
